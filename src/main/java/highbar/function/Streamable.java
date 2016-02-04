@@ -6,8 +6,9 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
- * Provides wrappers for unstreamable methods (methods that use checked exceptions), making them suitable for use with Java
- * 8 Streams.  Standard exceptions are wrapped with RuntimeException to remove the check requirement. Use with caution.
+ * Provides wrappers for unstreamable methods (methods that use checked exceptions), making them suitable
+ * for use with Java 8 Streams. Standard exceptions are wrapped with RuntimeException to remove the check
+ * requirement. Use with caution.
  */
 public class Streamable {
   /**
@@ -16,7 +17,7 @@ public class Streamable {
    * @return A Runnable that doesn't throw any checked exceptions.
    */
   public static Runnable runnable(UnstreamableRunnable runnable) {
-    return () -> safeRun(input -> {
+    return () -> runAsStreamable(input -> {
       runnable.run();
       return null;
     }, null);
@@ -29,7 +30,7 @@ public class Streamable {
    * @return A Consumer that doesn't throw any checked exceptions.
    */
   public static <T> Consumer<T> consumer(UnstreamableConsumer<T> consumer) {
-    return data -> safeRun(input -> {
+    return data -> runAsStreamable(input -> {
       consumer.accept(input);
       return null;
     }, data);
@@ -43,7 +44,7 @@ public class Streamable {
    * @return A Function that doesn't throw any checked exceptions.
    */
   public static <I, O> Function<I, O> function(UnstreamableFunction<I, O> function) {
-    return input -> safeRun(function, input);
+    return input -> runAsStreamable(function, input);
   }
 
   /**
@@ -53,9 +54,7 @@ public class Streamable {
    * @return A Predicate that doesn't throw any checked exceptions.
    */
   public static <T> Predicate<T> predicate(UnstreamablePredicate<T> predicate) {
-    return input -> safeRun(i -> {
-      return predicate.test(i);
-    }, input);
+    return input -> runAsStreamable(predicate::test, input);
   }
 
   /**
@@ -65,12 +64,10 @@ public class Streamable {
    * @return A Supplier that doesn't throw any checked exceptions.
    */
   public static <T> Supplier<T> supplier(UnstreamableSupplier<T> supplier) {
-    return () -> safeRun(input -> {
-      return supplier.get();
-    }, null);
+    return () -> runAsStreamable(input -> supplier.get(), null);
   }
 
-  private static <I,O> O safeRun(UnstreamableFunction<I,O> function, I input) {
+  private static <I,O> O runAsStreamable(UnstreamableFunction<I, O> function, I input) {
     try {
       return function.apply(input);
     } catch (Error | RuntimeException error) {

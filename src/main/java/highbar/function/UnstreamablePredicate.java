@@ -10,11 +10,11 @@ public interface UnstreamablePredicate<T> {
   /**
    * Evaluates this Predicate on the given argument.
    *
-   * @param t the input argument
+   * @param input the input argument
    * @return true if the input argument matches the predicate, otherwise false
    * @throws Exception
    */
-  boolean test(T t) throws Exception;
+  boolean test(T input) throws Exception;
 
   /**
    * Returns a composed predicate that represents a short-circuiting logical
@@ -35,7 +35,7 @@ public interface UnstreamablePredicate<T> {
   default UnstreamablePredicate<T> and(UnstreamablePredicate<? super T> other) {
     Objects.requireNonNull(other);
 
-    return (T t) -> test(t) && other.test(t);
+    return (T input) -> test(input) && other.test(input);
   }
 
   /**
@@ -46,7 +46,7 @@ public interface UnstreamablePredicate<T> {
    * predicate
    */
   default UnstreamablePredicate<T> negate() {
-    return (T t) -> !(test(t));
+    return (T input) -> !(test(input));
   }
 
   /**
@@ -68,7 +68,7 @@ public interface UnstreamablePredicate<T> {
   default UnstreamablePredicate<T> or(UnstreamablePredicate<T> other) {
     Objects.requireNonNull(other);
 
-    return (T t) -> test(t) || other.test(t);
+    return (T input) -> test(input) || other.test(input);
   }
 
   /**

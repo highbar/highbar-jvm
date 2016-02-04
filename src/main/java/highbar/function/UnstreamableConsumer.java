@@ -8,11 +8,11 @@ import java.util.Objects;
 @FunctionalInterface
 public interface UnstreamableConsumer<T> {
   /**
-   * Accepts the provided data.
-   * @param data The data to accept.
+   * Accepts the provided input.
+   * @param input The input to accept.
    * @throws Exception
    */
-  void accept(T data) throws Exception;
+  void accept(T input) throws Exception;
 
   /**
    * Returns a composed {@code UnstreamableConsumer} that performs, in sequence, this
@@ -29,9 +29,9 @@ public interface UnstreamableConsumer<T> {
   default UnstreamableConsumer<T> andThen(UnstreamableConsumer<? super T> after) {
     Objects.requireNonNull(after);
 
-    return (T t) -> {
-      accept(t);
-      after.accept(t);
+    return (T input) -> {
+      accept(input);
+      after.accept(input);
     };
   }
 }

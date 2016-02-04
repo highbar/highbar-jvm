@@ -1,4 +1,4 @@
-group 'com.patterns'
+group 'io.github.highbar'
 
 apply plugin: 'java'
 

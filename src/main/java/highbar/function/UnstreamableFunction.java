@@ -30,8 +30,8 @@ public interface UnstreamableFunction<I, O> {
    * @see #andThen(UnstreamableFunction)
    */
   default <V> UnstreamableFunction<V, O> compose(UnstreamableFunction<? super V, ? extends I> before) {
-      Objects.requireNonNull(before);
-      return (V v) -> apply(before.apply(v));
+    Objects.requireNonNull(before);
+    return (V input) -> apply(before.apply(input));
   }
 
   /**
@@ -49,8 +49,8 @@ public interface UnstreamableFunction<I, O> {
    * @see #compose(UnstreamableFunction)
    */
   default <V> UnstreamableFunction<I, V> andThen(UnstreamableFunction<? super O, ? extends V> after) {
-      Objects.requireNonNull(after);
-      return (I input) -> after.apply(apply(input));
+    Objects.requireNonNull(after);
+    return (I input) -> after.apply(apply(input));
   }
 
   /**
@@ -60,6 +60,6 @@ public interface UnstreamableFunction<I, O> {
    * @return a function that always returns its input argument
    */
   static <T> UnstreamableFunction<T, T> identity() {
-      return t -> t;
+    return input -> input;
   }
 }
