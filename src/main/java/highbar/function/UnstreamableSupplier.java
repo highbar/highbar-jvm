@@ -1,7 +1,8 @@
 package highbar.function;
 
 /**
- * Defines a supplier that masks all checked exceptions, allowing it to be used in lambdas and streaming APIs.
+ * Defines a supplier that throws one or more exceptions, thereby making it unsuitable for use in lambdas and
+ * streaming APIs.
  */
 @FunctionalInterface
 public interface UnstreamableSupplier<T> {

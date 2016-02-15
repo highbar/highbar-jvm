@@ -3,7 +3,8 @@ package highbar.function;
 import java.util.Objects;
 
 /**
- * Defines a consumer that masks all checked exceptions, allowing it to be used in lambdas and streaming APIs.
+ * Defines a consumer that throws one or more exceptions, thereby making it unsuitable for use in lambdas and
+ * streaming APIs.
  */
 @FunctionalInterface
 public interface UnstreamableConsumer<T> {
