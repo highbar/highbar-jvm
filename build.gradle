@@ -2,6 +2,7 @@ group 'io.github.highbar'
 
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'signing'
 
 repositories {
   mavenCentral()
